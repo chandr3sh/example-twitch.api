@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twitch-api example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  </head>
+  <body>
+    <header></header>
+
+    <main>
+    <div class="valign-wrapper row login-box">
+    <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+
+    <!-- User card -->
+    <% if (locals.user) { %>
+      <div class="card-image">
+        <img src="<%= user.avatarUrl %>">
+      </div>
+      <div class="card-content">
+        <span class="card-title"><%= user.displayName %>
+        <% if (user.isAffiliate) { %>
+          <i class="material-icons right">done</i>
+        <% } else if (user.isPartner) { %>
+          <i class="material-icons right">done_all</i>
+        <% } %>
+        </span>
+        <p><%= user.description %></p>
+      </div>
+      <div class="card-content">
+        <p id="views"><i class="material-icons left">assessment</i><strong><%= user.viewCount %></strong></p>
+        <label for="views">Views</label>
+      </div>
+      <div class="card-action right-align">
+        <a href="/" class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>Back</a>
+      </div>
+
+    <!-- Search box -->
+    <% } else { %>
+      <form action="/" method="post">
+        <div class="card-content">
+          <span class="card-title">Twitch-api example</span>
+          <div class="row">
+          <div class="input-field col s12" >
+            <input type="text" name="username" id="username" placeholder="Enter twitch username">
+            <label for="username">Username</label>
+          </div>
+          </div>
+        </div>
+        <div class="card-action right-align">
+          <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">search</i>Search</button>
+        </div>
+      </form>
+    <% } %>
+    </div>
+    </div>
+    </main>
+
+    <footer class="page-footer white">
+      <div class="footer-copyright white black-text">
+        <div class="container"><span class="right">🚀 Powered by <a href="https://expressjs.com/">Express</a></span></div>
+      </div>
+    </footer>
+
+    <% if (locals.error) { %>
+      <script>
+        M.toast({html: "<%= error.message %>"})
+      </script>
+    <% } %>
+    
+  <script>
+  $(document).ready(function() {
+    M.AutoInit();
+  });
+  </script>
+  </body>
+</html>

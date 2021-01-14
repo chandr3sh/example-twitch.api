@@ -1,0 +1,27 @@
+extends:
+  - eslint:recommended
+  - airbnb-base
+
+plugins:
+  - import
+
+env:
+  commonjs: true
+  es6: true
+  node: true
+
+parserOptions:
+  ecmaVersion: 2021
+
+rules:
+  max-len:
+    - error
+    - code: 120
+      ignoreComments: true
+      ignoreTrailingComments: true
+  quotes: [error, double]
+  camelcase: 0
+  no-console: 0
+  no-unused-vars: 0
+  no-use-before-define: 0
+  no-restricted-globals: 0
