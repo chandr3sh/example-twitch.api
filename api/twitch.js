@@ -3,8 +3,14 @@ const createError = require("http-errors");
 const FileSync = require("lowdb/adapters/FileSync");
 const lowdb = require("lowdb");
 const YAML = require("yaml");
+const axiosLogger = require("axios-logger");
 
 require("dotenv").config();
+
+axiosLogger.setGlobalConfig({
+  prefixText: "twitch",
+  data: false,
+});
 
 /**
  * Config for token, secrets, etc.
@@ -38,6 +44,10 @@ const oauth = axios.create({
   baseURL: "https://id.twitch.tv/oauth2",
   validateStatus: (status) => status === 200,
 });
+
+oauth.interceptors.request.use(axiosLogger.requestLogger, axiosLogger.errorLogger);
+oauth.interceptors.response.use(axiosLogger.responseLogger, axiosLogger.errorLogger);
+
 function validateToken(token) {
   return oauth.get("/validate", { headers: { Authorization: `OAuth ${token}` } });
 }
@@ -100,6 +110,8 @@ const helix = axios.create({
   validateStatus: (status) => status === 200,
 });
 
+helix.interceptors.request.use(axiosLogger.requestLogger, axiosLogger.errorLogger);
+helix.interceptors.response.use(axiosLogger.responseLogger, axiosLogger.errorLogger);
 /**
  * Request user data
  */
